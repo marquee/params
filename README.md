@@ -5,7 +5,7 @@ A simple front-end parameters manager for specifying global script parameters.
 
 ## Usage
 
-Include `params.js` in the page and initialize a parameters object.
+Include [`params.js`](https://github.com/droptype/params/releases/tag/v1.0.0) in the page and initialize a parameters object.
 
 ```javascript
 params = new Params()
