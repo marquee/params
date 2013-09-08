@@ -47,6 +47,32 @@ describe 'Params', ->
         (-> params.set('getAll', 1)).should.throw()
         (-> params.set('_strict', 1)).should.throw()
 
+    it 'should push a parameter', ->
+        params = new Params()
+        params.push('key', 1)
+        params.key.should.eql([1])
+        params.push('key', 2)
+        params.key.should.eql([1, 2])
+
+    it 'should push a subparameter', ->
+        params = new Params()
+        params.push('key.subkey', 1)
+        params.key.subkey.should.eql([1])
+        params.push('key.subkey', 2)
+        params.key.subkey.should.eql([1, 2])
+
+    it 'should not push a sub parameter if parameter is not an Array', ->
+        params = new Params()
+        params.set('key', 1)
+        (-> params.push('key.foo', 1)).should.throw("Cannot push subparameter 'key.foo'. 'key' is not an Array.")
+        params.key.should.equal(1)
+
+        params = new Params()
+        params.set('key.foo', 1)
+        (-> params.push('key.foo.bar', 1)).should.throw("Cannot push subparameter 'foo.bar'. 'foo' is not an Array.")
+        params.key.foo.should.equal(1)
+
+
 # params = new Params()
 
 # console.log params.getAll()

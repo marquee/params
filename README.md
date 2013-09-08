@@ -20,7 +20,6 @@ params = new Params()
     ```javascript
     > params.set('enabled', true).set('inactive', false).set('name', 'Basil')
     ```
-    
 
 *   Get a parameter:
 
@@ -52,6 +51,25 @@ params = new Params()
     true
     ```
 
+*   Push a parameter:
+
+    ```javascript
+    > params.push('options', 'editable')
+    > params.push('options', 'fancy')
+    > params.push('options', 'pants')
+    > params.options
+    ['editable', 'fancy', 'pants']
+    ```
+
+*   Push a parameter:
+
+    ```javascript
+    > params.push('config.editor', 'title')
+    > params.push('config.editor', 'cover')
+    > params.config.editor
+    ['title', 'cover']
+    ```
+
 *   Get all parameters:
 
     ```javascript
@@ -69,7 +87,12 @@ params = new Params()
             b: {
                 c: true
             }
-        }
+        },
+        config: {
+            editor: ['title', 'cover']
+        },
+        options: ['editable', 'fancy', 'pants']
+
     }
     ```
 
@@ -82,4 +105,5 @@ params = new Params()
     Error: Param 'only_set_once' was already set with `true`
     > strict_params.only_set_once
     true
+    ```
 
