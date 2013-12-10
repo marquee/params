@@ -5,7 +5,11 @@ A simple front-end parameters manager for specifying global script parameters.
 
 ## Usage
 
-Include [`params.js`](https://github.com/droptype/params/releases/tag/v1.0.0) in the page and initialize a parameters object.
+Include [`params.js`](https://github.com/droptype/params/releases/tag/v1.2.0)
+in the page and initialize a Params object. Or, include the
+`params-1.2.0-min.html` HTML fragment, which initializes a Params instance
+under `window.params`. (It’s also slightly smaller, omitting features that
+are unnecessary if there‘s only one instance.)
 
 ```javascript
 params = new Params()
@@ -107,3 +111,18 @@ params = new Params()
     true
     ```
 
+*   Set and unescape a parameter:
+
+    ```javascript
+    > params.setUnescaped('title', 'Green Eggs &amp; Ham')
+    > params.title
+    'Green Eggs & Ham'
+    ```
+
+*   Push and unescape a parameter:
+
+    ```javascript
+    > params.pushUnescaped('tags', '&lt;br&gt;').pushUnescaped('tags', '&lt;p&gt;')
+    > params.tags
+    ['<br>', '<p>']
+    ```

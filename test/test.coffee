@@ -45,6 +45,9 @@ describe 'Params', ->
         params = new Params()
         (-> params.set('set', 1)).should.throw()
         (-> params.set('getAll', 1)).should.throw()
+        (-> params.set('push', 1)).should.throw()
+        (-> params.set('setUnescaped', 1)).should.throw()
+        (-> params.set('pushUnescaped', 1)).should.throw()
         (-> params.set('_strict', 1)).should.throw()
 
     it 'should push a parameter', ->
@@ -72,24 +75,32 @@ describe 'Params', ->
         (-> params.push('key.foo.bar', 1)).should.throw("Cannot push subparameter 'foo.bar'. 'foo' is not an Array.")
         params.key.foo.should.equal(1)
 
+    it 'should set parameters as escaped', ->
+        params = new Params()
+        params.set('key.subkey', '&lt;')
+        params.key.subkey.should.equal('&lt;')
 
-# params = new Params()
+    it 'should unescape parameters when using setUnescaped', ->
+        params = new Params()
+        params.setUnescaped('key', '&lt;')
+        params.key.should.equal('<')
 
-# console.log params.getAll()
+    it 'should push parameters as escaped', ->
+        params = new Params()
+        params.push('key.subkey', '&lt;')
+        params.key.subkey.should.eql(['&lt;'])
 
-# params.set('foo', 'a').set('Bar', 1234)
+    it 'should unescape parameters when using pushUnescaped', ->
+        params = new Params()
+        params.pushUnescaped('key', '&lt;')
+        params.key.should.eql(['<'])
 
-# console.log params.getAll()
+    it 'should allow for a mix of push and pushUnescaped', ->
+        params = new Params()
+        params.push('key', '&lt;script&gt;')
+        params.pushUnescaped('key', '&lt;script&gt;')
+        params.key.should.eql(['&lt;script&gt;', '<script>'])
 
-# params.set('foo', 9)
-
-# console.log params.getAll()
-
-
-# params.set('asdf.asdf.asdf', 9)
-
-# console.log params.getAll()
-
-# params.set('foo.bar', 9)
-# console.log params.getAll()
-# console.log params.foo
+    it 'should not unescape a parameter if the value is not a string', ->
+        params = new Params()
+        (-> params.setUnescaped('key.foo', 1)).should.throw("Cannot unescape non-string values")

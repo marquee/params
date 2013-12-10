@@ -2,7 +2,23 @@
 Parameters manager - https://github.com/droptype/params
 ###
 
-INTERNAL = ['set', 'getAll', '_strict']
+INTERNAL = ['set', 'getAll', 'push', 'setUnescaped', 'pushUnescaped', '_strict']
+
+# Unescape helper, adapted from [Underscore](http://underscorejs.org).
+entities =
+  '&amp;'   : '&'
+  '&lt;'    : '<'
+  '&gt;'    : '>'
+  '&quot;'  : '"'
+  '&#x27;'  : '\''
+exp = new RegExp('(&amp;|&lt;|&gt;|&quot;|&#x27;)', 'g')
+_unescapeHTML = (data_str) ->
+    unless data_str
+        return ''
+    return data_str.replace exp, (match) ->
+        return entities[match]
+
+
 
 class Params
 
@@ -18,12 +34,19 @@ class Params
     # value  - an arbitrary value to set
     # kwargs - an object of optional arguments
     #          push - a Boolean indicating the key is should be set to an Array
+    #          unescape - a Boolean indicating the value should have HTML
+    #            entities unescaped first.
     #
     # Returns self for chaining.
     set: (key, value, kwargs={}) =>
 
         if key in INTERNAL
             throw new Error("Cannot set the '#{ key }' param, silly.")
+
+        if kwargs.unescape
+            unless typeof value is 'string'
+                throw new Error('Cannot unescape non-string values')
+            value = _unescapeHTML(value)
 
         key_list = key.split('.')
         target_obj = this
@@ -61,8 +84,14 @@ class Params
 
         return this
 
+    # Public: shortcut for `set` with `unescape: true`.
+    # 
+    # Returns self for chaining.
+    setUnescaped: (key, value) =>
+        return @set(key, value, unescape: true)
 
-    # Public: push a parameter. If they key is not already set, it will be created.
+    # Public: push a parameter. If they key is not already set, it will be
+    #           created. Shortcut for `set` with `push: true`.
     #
     # key    - a String key to set. MAY use dot notation to specify sub parameters.
     # value  - an arbitrary value to set
@@ -71,6 +100,11 @@ class Params
     push: (key, value) =>
         return @set(key, value, push: true)
 
+    # Public: shortcut for `set` with `push: true, unescape: true`.
+    # 
+    # Returns self for chaining.
+    pushUnescaped: (key, value) =>
+        return @set(key, value, push: true, unescape: true)
 
     # Public: get all of the parameters. Used to avoid getting the internal
     # properties as well.
