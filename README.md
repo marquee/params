@@ -3,6 +3,8 @@ Params
 
 A simple front-end parameters manager for specifying global script parameters.
 
+[![Build Status](https://travis-ci.org/marquee/params.png?branch=v1.2.0)](https://travis-ci.org/marquee/params)
+
 ## Usage
 
 Include [`params.js`](https://github.com/droptype/params/releases/tag/v1.2.0)
