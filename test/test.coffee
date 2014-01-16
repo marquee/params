@@ -49,6 +49,7 @@ describe 'Params', ->
         (-> params.set('setUnescaped', 1)).should.throw()
         (-> params.set('pushUnescaped', 1)).should.throw()
         (-> params.set('_strict', 1)).should.throw()
+        (-> params.set('unescape', '')).should.throw()
 
     it 'should push a parameter', ->
         params = new Params()
@@ -104,3 +105,7 @@ describe 'Params', ->
     it 'should not unescape a parameter if the value is not a string', ->
         params = new Params()
         (-> params.setUnescaped('key.foo', 1)).should.throw("Cannot unescape non-string values")
+
+    it 'should expose the unescape function that unescapes strings', ->
+        params = new Params()
+        params.unescape('&lt;script&gt;&amp;').should.equal('<script>&')

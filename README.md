@@ -3,13 +3,13 @@ Params
 
 A simple front-end parameters manager for specifying global script parameters.
 
-[![Build Status](https://travis-ci.org/marquee/params.png?branch=v1.2.0)](https://travis-ci.org/marquee/params)
+[![Build Status](https://travis-ci.org/marquee/params.png?branch=v1.3.0)](https://travis-ci.org/marquee/params)
 
 ## Usage
 
-Include [`params.js`](https://github.com/droptype/params/releases/tag/v1.2.0)
+Include [`params.js`](https://github.com/droptype/params/releases/tag/v1.3.0)
 in the page and initialize a Params object. Or, include the
-`params-1.2.0-min.html` HTML fragment, which initializes a Params instance
+`params-1.3.0-min.html` HTML fragment, which initializes a Params instance
 under `window.params`. (It’s also slightly smaller, omitting features that
 are unnecessary if there‘s only one instance.)
 
@@ -128,3 +128,10 @@ params = new Params()
     > params.tags
     ['<br>', '<p>']
     ```
+
+*   Push an object with escaped values, using unescape function:
+
+    ```javascript
+    > params.push('stories', { title: params.unescape('X&amp;Y') })
+    > params.stories
+    [{ title: 'X&Y' }]

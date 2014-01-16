@@ -2,6 +2,23 @@
 
 
 
+## 1.3.0
+
+### Features
+
+* Add unescape helper method
+
+
+
+## 1.2.0
+
+### Features
+
+* Add setUnescaped method
+* Add pushUnescaped method
+
+
+
 ## 1.1.0
 
 ### Features

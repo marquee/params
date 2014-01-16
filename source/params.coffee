@@ -2,7 +2,7 @@
 Parameters manager - https://github.com/droptype/params
 ###
 
-INTERNAL = ['set', 'getAll', 'push', 'setUnescaped', 'pushUnescaped', '_strict']
+INTERNAL = ['set', 'getAll', 'push', 'setUnescaped', 'pushUnescaped', '_strict', 'unescape']
 
 # Unescape helper, adapted from [Underscore](http://underscorejs.org).
 entities =
@@ -22,7 +22,7 @@ _unescapeHTML = (data_str) ->
 
 class Params
 
-    @VERSION = '1.1.0'
+    @VERSION = '1.3.0'
 
     constructor: (opts={}) ->
         @_strict = if opts.strict? then opts.strict else false
@@ -117,6 +117,13 @@ class Params
                 param_obj[k] = v
         return param_obj
 
+    # Public: expose the unescape function for use when setting or pushing
+    # objects that have string values needing unescaping.
+    #
+    # value - a String value with HTML entities to be escaped
+    #
+    # Returns the unescaped String value.
+    unescape: _unescapeHTML
 
 if module?
     module.exports = Params
