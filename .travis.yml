@@ -3,4 +3,4 @@ node_js:
    - "0.11"
    - "0.10"
 notifications:
-   webhooks: https://marquee.slack.com/services/hooks/travis?token=AKhP3GWuazpPr0YWiYTG2fVk
+   webhooks: https://hooks.slack.com/services/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
